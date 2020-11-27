@@ -1,0 +1,33 @@
+version: '2.4'
+services:
+  # app:
+  #   build:
+  #     context: .
+  #     target: dev
+  #   ports:
+  #     - '4000:4000'
+  #   environment:
+  #     - PORT=4000
+  #     - DB_URI=postgres://user:asdfasdf@db:5432/nfl_rushing
+  #   volumes:
+  #     - ./api:/app/src
+
+  db:
+    image: mkallies/nfl_rushings:v1
+    ports:
+      # mapping between host:container -- [EXPOSE TO HOST]:[PORT IN CONTAINER]
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=asdfasdf
+      - POSTGRES_DB=nfl_rushing
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+  pgAdmin:
+    image: dpage/pgadmin4
+    ports:
+      - '5000:80'
+    links:
+      - db
+    env_file:
+      - ./api/.env
