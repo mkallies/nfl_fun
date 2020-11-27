@@ -1,13 +1,6 @@
 import React, { useState, useCallback } from "react"
 import { Input } from "@chakra-ui/react"
-
-const debounce = (fn, ms = 0) => {
-  let timeoutId
-  return function (...args) {
-    clearTimeout(timeoutId)
-    timeoutId = setTimeout(() => fn.apply(this, args), ms)
-  }
-}
+import { debounce } from "../../utils"
 
 export const SearchPlayers = ({ onChange }) => {
   const [value, setValue] = useState("")

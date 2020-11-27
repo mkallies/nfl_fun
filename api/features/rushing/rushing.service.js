@@ -46,12 +46,10 @@ const rushingService = {
   },
   saveRushingData: async (data) => {
     try {
-      if (!data) {
-        throw new Error('Please supply data')
-      }
       const massaged = data.map((item) => {
         return models.Rushing.mapToSchema(item)
       })
+
       await models.Rushing.bulkCreate(massaged)
     } catch (error) {
       console.log({ error })
@@ -85,6 +83,14 @@ const rushingService = {
 
     try {
       const stats = await models.Rushing.findAll(downloadQuery)
+
+      const withTouchdowns = stats.map((stat) => {
+        const { longest_rush, has_touchdown } = stat
+        return {
+          ...stat,
+          longest_rush: `${longest_rush}${has_touchdown ? 'T' : ''}`,
+        }
+      })
 
       const csvParser = new Parser({
         fields: [
@@ -146,7 +152,7 @@ const rushingService = {
           },
         ],
       })
-      const csvData = csvParser.parse(stats)
+      const csvData = csvParser.parse(withTouchdowns)
 
       return csvData
     } catch (error) {

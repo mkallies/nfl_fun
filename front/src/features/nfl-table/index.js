@@ -1,11 +1,10 @@
 import React, { useState, useMemo, useEffect } from "react"
-import { Stack, Flex, Spinner, Skeleton } from "@chakra-ui/react"
+import { Stack, Flex, Skeleton } from "@chakra-ui/react"
 import { Table } from "../../components/table"
 import { SearchPlayers } from "./search-players"
 import { DownloadStatsBtn } from "./download-stats-btn"
 import axios from "axios"
-
-const isEmpty = val => val == null || !(Object.keys(val) || val).length
+import { isEmpty } from "../../utils"
 
 const NFLTable = () => {
   const [page, setPage] = useState(0)
@@ -13,7 +12,7 @@ const NFLTable = () => {
   const [hasMore, setHasMore] = useState(false)
 
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState()
+  const [, setError] = useState()
 
   const [input, setInput] = useState("")
 
@@ -37,7 +36,16 @@ const NFLTable = () => {
       const { data } = await axios.get(url)
 
       setHasMore(data.hasMore)
-      setData([...data.stats])
+
+      const withTouchdown = data.stats.map(stat => {
+        const { longest_rush, has_touchdown } = stat
+        return {
+          ...stat,
+          longest_rush: `${longest_rush}${has_touchdown ? "T" : ""}`,
+        }
+      })
+
+      setData([...withTouchdown])
     } catch (error) {
       setError(error)
     }

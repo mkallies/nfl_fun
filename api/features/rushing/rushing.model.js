@@ -16,7 +16,7 @@ const MAPPER = {
   FUM: 'fumbles',
 }
 
-const STRING_KEYS = ['position', 'player', 'team', 'longest_rush']
+const STRING_KEYS = ['position', 'player', 'team']
 
 module.exports = (sequelize, DataTypes) => {
   const Rushing = sequelize.define('rushing', {
@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
     // TD
     rushing_tds: DataTypes.INTEGER,
     // Lng
-    longest_rush: DataTypes.STRING,
+    longest_rush: DataTypes.INTEGER,
     // 1st
     rushing_first_down: DataTypes.INTEGER,
     // 1st%
@@ -48,18 +48,26 @@ module.exports = (sequelize, DataTypes) => {
     rushing_40: DataTypes.INTEGER,
     // FUM
     fumbles: DataTypes.INTEGER,
+    // For longest rush touchdowns
+    has_touchdown: DataTypes.BOOLEAN,
   })
 
   Rushing.mapToSchema = (objToSave) => {
     return Object.keys(objToSave).reduce((acc, next) => {
       const key = MAPPER[next]
 
+      const value = objToSave[next]
+
       if (STRING_KEYS.includes(key)) {
-        acc[key] = objToSave[next]
+        acc[key] = value
       } else {
-        const value = objToSave[next]
-        acc[key] =
-          typeof value === 'number' ? value : Number(value.replace(',', ''))
+        if (typeof value === 'string' && value.includes('T')) {
+          acc.has_touchdown = true
+          acc[key] = value.replace('T', '')
+        } else {
+          acc[key] =
+            typeof value === 'number' ? value : Number(value.replace(',', ''))
+        }
       }
 
       return acc

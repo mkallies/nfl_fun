@@ -23,7 +23,7 @@ const Table = ({ columns, data, onNext, onPrev, hasMore, isFetching }) => {
 
     nextPage,
     previousPage,
-    state: { pageIndex, pageSize },
+    state: { pageIndex },
   } = tableInstance
 
   const handleNextPageClick = () => {
