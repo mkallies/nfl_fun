@@ -1,13 +1,14 @@
 ## To get started for the first time
 
 ```
-cd api
+// Root directory
 docker-compose up -d
+
+cd api
 npm install
 npm run start
-```
 
-```
+// New terminal
 cd front
 npm install
 npm run start

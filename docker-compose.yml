@@ -21,8 +21,6 @@ services:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=asdfasdf
       - POSTGRES_DB=nfl_rushing
-    volumes:
-      - ./data/postgres:/var/lib/postgresql/data
   pgAdmin:
     image: dpage/pgadmin4
     ports:
