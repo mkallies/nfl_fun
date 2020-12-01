@@ -2,9 +2,6 @@ version: '2.4'
 services:
   app:
     image: mkallies/nfl_rushings:backend
-    build:
-      context: .
-      target: dev
     ports:
       - '4000:4000'
     environment:
