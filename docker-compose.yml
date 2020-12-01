@@ -1,16 +1,18 @@
 version: '2.4'
 services:
-  # app:
-  #   build:
-  #     context: .
-  #     target: dev
-  #   ports:
-  #     - '4000:4000'
-  #   environment:
-  #     - PORT=4000
-  #     - DB_URI=postgres://user:asdfasdf@db:5432/nfl_rushing
-  #   volumes:
-  #     - ./api:/app/src
+  app:
+    image: mkallies/nfl_rushings:backend
+    build:
+      context: .
+      target: dev
+    ports:
+      - '4000:4000'
+    environment:
+      - PORT=4000
+      - DB_URI=postgres://user:asdfasdf@db:5432/nfl_rushing
+
+    volumes:
+      - ./api:/app/src
 
   db:
     image: mkallies/nfl_rushings:v1
