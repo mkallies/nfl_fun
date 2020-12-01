@@ -5,10 +5,6 @@ docker pull mkallies/nfl_rushings:v1 // May need to pull if your image is out of
 // Root directory
 docker-compose up -d
 
-cd api
-npm install
-npm run start
-
 // New terminal
 cd front
 npm install
