@@ -7,7 +7,8 @@ services:
     environment:
       - PORT=4000
       - DB_URI=postgres://user:asdfasdf@db:5432/nfl_rushing
-
+    depends_on:
+      - db
     volumes:
       - ./api:/app/src
 
